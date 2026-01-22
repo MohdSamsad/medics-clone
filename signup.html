@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - MedEdu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #f0f9ff 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 450px;
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-family: 'Roboto Slab', serif;
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .logo i {
+            color: var(--secondary);
+        }
+        
+        .auth-card {
+            background: white;
+            padding: 2.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .auth-card h2 {
+            text-align: center;
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .auth-card p {
+            text-align: center;
+            color: var(--gray);
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+        
+        .btn {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .signup-link {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--gray);
+        }
+        
+        .signup-link a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        
+        .signup-link a:hover {
+            text-decoration: underline;
+        }
+        
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+        
+        .alert-error {
+            background: #fee2e2;
+            color: #dc2626;
+            border: 1px solid #fca5a5;
+        }
+        
+        .alert-success {
+            background: #d1fae5;
+            color: #059669;
+            border: 1px solid #6ee7b7;
+        }
+        
+        .plan-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        .plan-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 0.5rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .plan-card.selected {
+            border-color: var(--primary);
+            background: #eff6ff;
+        }
+        
+        .plan-card h4 {
+            margin-bottom: 0.5rem;
+            color: var(--dark);
+        }
+        
+        .plan-card .price {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .plan-card .period {
+            color: var(--gray);
+            font-size: 0.875rem;
+        }
+        
+        .terms {
+            font-size: 0.875rem;
+            color: var(--gray);
+            text-align: center;
+            margin-top: 1rem;
+        }
+        
+        .terms a {
+            color: var(--primary);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">
+            <i class="fas fa-stethoscope"></i> MedEdu
+        </div>
+        
+        <div class="auth-card">
+            <h2>Start Your Journey</h2>
+            <p>Create your account and get 7-day free trial</p>
+            
+            <div id="alert" class="alert"></div>
+            
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" class="form-control" placeholder="Dr. John Smith" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" class="form-control" placeholder="student@example.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" class="form-control" placeholder="••••••••" required minlength="6">
+                </div>
+                
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" class="form-control" placeholder="••••••••" required>
+                </div>
+                
+                <div class="plan-selector">
+                    <div class="plan-card selected" onclick="selectPlan(this, 'free')">
+                        <h4>Free Trial</h4>
+                        <div class="price">$0</div>
+                        <div class="period">7 days free</div>
+                    </div>
+                    <div class="plan-card" onclick="selectPlan(this, 'premium')">
+                        <h4>Premium</h4>
+                        <div class="price">$29</div>
+                        <div class="period">per month</div>
+                    </div>
+                </div>
+                <input type="hidden" id="selectedPlan" value="free">
+                
+                <button type="submit" class="btn">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </button>
+            </form>
+            
+            <div class="signup-link">
+                Already have an account? <a href="login.html">Sign in here</a>
+            </div>
+            
+            <div class="terms">
+                By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Plan selection
+        function selectPlan(element, plan) {
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            element.classList.add('selected');
+            document.getElementById('selectedPlan').value = plan;
+        }
+
+        // Handle signup form submission
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const plan = document.getElementById('selectedPlan').value;
+            const alertDiv = document.getElementById('alert');
+            
+            // Clear any previous alerts
+            alertDiv.style.display = 'none';
+            alertDiv.className = 'alert';
+            
+            // Validation
+            if (password !== confirmPassword) {
+                alertDiv.textContent = 'Passwords do not match!';
+                alertDiv.className = 'alert alert-error';
+                alertDiv.style.display = 'block';
+                return;
+            }
+            
+            if (password.length < 6) {
+                alertDiv.textContent = 'Password must be at least 6 characters!';
+                alertDiv.className = 'alert alert-error';
+                alertDiv.style.display = 'block';
+                return;
+            }
+            
+            // Check if user already exists (in localStorage)
+            const existingUsers = JSON.parse(localStorage.getItem('users')) || [];
+            const userExists = existingUsers.some(user => user.email === email);
+            
+            if (userExists) {
+                alertDiv.textContent = 'User with this email already exists!';
+                alertDiv.className = 'alert alert-error';
+                alertDiv.style.display = 'block';
+                return;
+            }
+            
+            // Create new user
+            const newUser = {
+                id: Date.now(),
+                name: name,
+                email: email,
+                password: password,
+                subscription: plan,
+                joinDate: new Date().toISOString().split('T')[0],
+                isActive: true
+            };
+            
+            // Save to localStorage
+            existingUsers.push(newUser);
+            localStorage.setItem('users', JSON.stringify(existingUsers));
+            
+            // Auto login
+            localStorage.setItem('currentUser', JSON.stringify({
+                id: newUser.id,
+                name: newUser.name,
+                email: newUser.email,
+                subscription: newUser.subscription,
+                joinDate: newUser.joinDate
+            }));
+            
+            // Show success message
+            alertDiv.textContent = 'Account created successfully! Redirecting...';
+            alertDiv.className = 'alert alert-success';
+            alertDiv.style.display = 'block';
+            
+            // Redirect to dashboard after 1.5 seconds
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 1500);
+        });
+
+        // Handle Enter key press
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                document.getElementById('signupForm').dispatchEvent(new Event('submit'));
+            }
+        });
+    </script>
+</body>
+</html>
