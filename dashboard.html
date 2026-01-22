@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - MedEdu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #10b981;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --gray: #6b7280;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light);
+            color: var(--dark);
+        }
+        
+        /* Top Navigation */
+        .top-nav {
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-family: 'Roboto Slab', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .user-menu {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+        }
+        
+        .logout-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.3s;
+        }
+        
+        .logout-btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        /* Sidebar */
+        .dashboard-container {
+            display: flex;
+            min-height: 100vh;
+            padding-top: 70px;
+        }
+        
+        .sidebar {
+            width: 250px;
+            background: white;
+            border-right: 1px solid #e5e7eb;
+            padding: 2rem 0;
+            position: fixed;
+            height: calc(100vh - 70px);
+            overflow-y: auto;
+        }
+        
+        .sidebar-menu {
+            list-style: none;
+        }
+        
+        .sidebar-menu li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.75rem 1.5rem;
+            color: var(--dark);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: #eff6ff;
+            color: var(--primary);
+            border-right: 3px solid var(--primary);
+        }
+        
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            padding: 2rem;
+            margin-left: 250px;
+        }
+        
+        .welcome-section {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .welcome-section h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .stat-card h3 {
+            font-size: 2rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        .course-card {
+            background: white;
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        
+        .course-header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 1.5rem;
+        }
+        
+        .course-body {
+            padding: 1.5rem;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: var(--secondary);
+            border-radius: 4px;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .subscription-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+        
+        .subscription-card.premium {
+            border: 2px solid var(--secondary);
+        }
+        
+        .subscription-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: var(--secondary);
+            color: white;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .sidebar {
+                display: none;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .dashboard-container {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <nav class="top-nav">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <i class="fas fa-stethoscope"></i>
+                MedEdu
+            </a>
+            
+            <div class="user-menu">
+                <div class="user-info" id="userInfo">
+                    <!-- Filled by JavaScript -->
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Container -->
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <ul class="sidebar-menu">
+                <li><a href="dashboard.html" class="active">
+                    <i class="fas fa-home"></i> Dashboard
+                </a></li>
+                <li><a href="courses.html">
+                    <i class="fas fa-book-medical"></i> My Courses
+                </a></li>
+                <li><a href="#">
+                    <i class="fas fa-video"></i> Video Library
+                </a></li>
+                <li><a href="#">
+                    <i class="fas fa-clipboard-check"></i> OSCE Stations
+                </a></li>
+                <li><a href="#">
+                    <i class="fas fa-brain"></i> Quizzes
+                </a></li>
+                <li><a href="#">
+                    <i class="fas fa-chart-line"></i> Progress
+                </a></li>
+                <li><a href="#">
+                    <i class="fas fa-cog"></i> Settings
+                </a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Welcome Section -->
+            <section class="welcome-section" id="welcomeSection">
+                <!-- Filled by JavaScript -->
+            </section>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>12</h3>
+                    <p>Courses Enrolled</p>
+                </div>
+                <div class="stat-card">
+                    <h3>48</h3>
+                    <p>Videos Watched</p>
+                </div>
+                <div class="stat-card">
+                    <h3>85%</h3>
+                    <p>Average Quiz Score</p>
+                </div>
+                <div class="stat-card">
+                    <h3>24</h3>
+                    <p>Study Hours</p>
+                </div>
+            </div>
+
+            <!-- Subscription Status -->
+            <div class="subscription-card" id="subscriptionCard">
+                <!-- Filled by JavaScript -->
+            </div>
+
+            <!-- Continue Learning -->
+            <h2 style="margin-bottom: 1.5rem;">Continue Learning</h2>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Cardiovascular Examination</h3>
+                        <p>Cardiology</p>
+                    </div>
+                    <div class="course-body">
+                        <p>Master heart examination techniques</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 65%"></div>
+                        </div>
+                        <p>65% Complete</p>
+                        <button class="btn" style="margin-top: 1rem;">
+                            <i class="fas fa-play-circle"></i> Continue
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Respiratory Examination</h3>
+                        <p>Pulmonology</p>
+                    </div>
+                    <div class="course-body">
+                        <p>Lung examination and interpretation</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 40%"></div>
+                        </div>
+                        <p>40% Complete</p>
+                        <button class="btn" style="margin-top: 1rem;">
+                            <i class="fas fa-play-circle"></i> Continue
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="course-card">
+                    <div class="course-header">
+                        <h3>Neurological Exam</h3>
+                        <p>Neurology</p>
+                    </div>
+                    <div class="course-body">
+                        <p>Cranial nerves and motor/sensory exams</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 20%"></div>
+                        </div>
+                        <p>20% Complete</p>
+                        <button class="btn" style="margin-top: 1rem;">
+                            <i class="fas fa-play-circle"></i> Continue
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+        
+        if (!currentUser) {
+            window.location.href = 'login.html';
+        }
+
+        // Update user info
+        function updateUserInfo() {
+            document.getElementById('userInfo').innerHTML = `
+                <div class="user-avatar">${currentUser.name.charAt(0).toUpperCase()}</div>
+                <div>
+                    <strong>${currentUser.name}</strong>
+                    <div style="font-size: 0.875rem; color: var(--gray);">
+                        ${currentUser.email}
+                    </div>
+                </div>
+            `;
+            
+            // Update welcome section
+            document.getElementById('welcomeSection').innerHTML = `
+                <h1>Welcome back, ${currentUser.name}!</h1>
+                <p>Continue your medical education journey</p>
+            `;
+            
+            // Update subscription card
+            const isPremium = currentUser.subscription === 'premium';
+            document.getElementById('subscriptionCard').innerHTML = `
+                ${isPremium ? '<span class="subscription-badge"><i class="fas fa-crown"></i> Premium Member</span>' : ''}
+                <h2>${isPremium ? 'Premium Subscription Active' : 'Free Trial'}</h2>
+                <p>${isPremium ? 
+                    'You have full access to all premium content. Your subscription renews monthly.' : 
+                    'You have access to limited content. Upgrade to premium for full access.'}</p>
+                ${!isPremium ? `
+                    <button class="btn" onclick="upgradeToPremium()" style="margin-top: 1rem;">
+                        <i class="fas fa-crown"></i> Upgrade to Premium
+                    </button>
+                ` : ''}
+            `;
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'index.html';
+        }
+
+        function upgradeToPremium() {
+            // Update user subscription
+            currentUser.subscription = 'premium';
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            
+            // Update local storage users array
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+            const userIndex = users.findIndex(u => u.email === currentUser.email);
+            if (userIndex !== -1) {
+                users[userIndex].subscription = 'premium';
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            // Show success message and refresh
+            alert('Upgraded to Premium successfully!');
+            updateUserInfo();
+        }
+
+        // Initialize
+        updateUserInfo();
+    </script>
+</body>
+</html>
